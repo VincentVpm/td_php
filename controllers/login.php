@@ -1,4 +1,5 @@
 <?php
+session_start();
 // 1- Connexion à la DB
 require '../kernel/db_connect.php';
 // 2- Récupérer les données du form
@@ -28,6 +29,7 @@ else if(password_verify($datas_form['password'],$user[0]['password'])) {
         // 7- Si user est admin > démarrage session, stockage dans la session d'une preuve d'identification
         session_start();
         $_SESSION["is_admin"] = true;
+        $_SESSION["id_admin"] = $user[0]['id'];
         // 8- Redirection du user vers la page gestion.php (page à créer)
         header('Location: ../backend/gestion.php');
         exit();
@@ -41,4 +43,6 @@ else {
 // On cumule les messages d'erreur et on redirige le user sur le form de login avec affichage de toutes ses erreurs
 session_start();
 $_SESSION['messages'] = $messages;
+//print_r($messages);
+//die();
 header('Location: ../backend/index.php');

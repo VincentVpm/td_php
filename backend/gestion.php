@@ -1,4 +1,6 @@
 <?php
+require '../kernel/functions.php';
+require '../kernel/session_check.php';
 require '../kernel/db_connect.php';
 require '../models/user.php';
 $users = findAllUsers();
@@ -10,6 +12,7 @@ require 'templates/header.php' ?>
     <div class="row">
         <div class="col-12">
             <h1>Gestion des abonnés</h1>
+            <?= getFlash() ?>
             <!--      Table>thead>tr>th*6 -->
             <Table class="table table-bordered table-striped table-hover">
                 <thead>
@@ -41,6 +44,13 @@ require 'templates/header.php' ?>
                             <?= date_format($date_creation,'d/m/Y:i')?>
  <!--                           12/02/2019 14h56 -->
                         </td>
+                        <td>
+                            <?php if(!$user['is_admin']):?>
+                            <a class ="btn btn-outline-dark" href="../controllers/toggleAdmin.php?id=<?=$user['id'] ?> &admin=1">Donner droit admin</a>
+                            <?php else :?>
+                            <a  class ="btn btn-outline-dark <?php if($_SESSION['id_admin']==$user['id']):?> disabled <?php endif ?> "href="../controllers/toggleAdmin.php?id=<?=$user['id'] ?>">Révoquer droit admin</a>
+                            <?php endif ?>
+                        </td>
                     </tr>
                 <?php endforeach ?>
                 </tbody>
@@ -48,6 +58,12 @@ require 'templates/header.php' ?>
         </div>
     </div>
 </div>
+<!--container>.row>col-12 -->
+<div class="container text-center">
+<a onclick="return confirm('sûr(e) de nous quitter!?')" href="../controllers/logout.php">Quitter</a>
+</div>
 <?php require 'templates/footer.php' ?>
 </body>
 </html>
+
+//ceci est un test

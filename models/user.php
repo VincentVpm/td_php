@@ -31,11 +31,11 @@ function addUser(array $datas){
     $stmt = $db->prepare($sql);
     $stmt->bindParam(":login",$datas['login'],PDO::PARAM_STR);
     $stmt->bindParam(":email",$datas['email'],PDO::PARAM_STR);
-    $stmt->bindParam(":password",password_hash($datas['password'],PASSWORD_ARGON2IP),PDO::PARAM_STR);
+    $stmt->bindParam(":password",password_hash($datas['password'],PASSWORD_ARGON2ID),PDO::PARAM_STR);
     $stmt->bindParam(":nom",$datas['nom'],PDO::PARAM_STR);
     $stmt->bindParam(":prenom",$datas['prenom'],PDO::PARAM_STR);
-    $stmt->bindValue(":is_admin",0,$datas['is_admin'],PDO::PARAM_BOOL);
-    $stmt->bindParam(":created_at",date['Y-m-d H:i:s'],PDO::PARAM_STR);
+    $stmt->bindValue(":is_admin",0,PDO::PARAM_BOOL);
+    $stmt->bindParam(":created_at",date('Y-m-d H:i:s'),PDO::PARAM_STR);
     $stmt->execute();
 }
 
@@ -49,4 +49,14 @@ function findAllUsers() {
     $stmt->setFetchMode(PDO::FETCH_ASSOC);
     $resultat = $stmt->fetchAll();
     return $resultat;
+}
+
+function setAdmin($id,$is_admin = true){
+    global $db;
+    $sql = "UPDATE users SET is_admin = :is_admin WHERE id= :id";
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam(':is_admin',$is_admin,PDO::PARAM_BOOL);
+    $stmt->bindParam(':id',$id,PDO::PARAM_INT);
+    $stmt->execute();
+
 }

@@ -10,6 +10,7 @@ require "templates/footer.php";
     <div class="row">
         <div class="col-6 offset-3">
             <h1>Identifiez-vous!</h1>
+            <?php echo getFlash() ?>
             <form action="../controllers/login.php" method="POST">
                 <div class="form-group">
                     <label for="login">Votre Login</label>
@@ -20,7 +21,7 @@ require "templates/footer.php";
                     <input class="form-control" type="password" name="password" id="password">
                 </div>
                 <div class="form-group">
-                    <input  type="submit" name="btn btn-primary" value="se connecter">
+                    <input  type="submit" class="btn btn-primary" value="se connecter">
                 </div>
             </form>
         </div>

@@ -34,8 +34,9 @@ function getFlash() {
     //démarrage session
   //  session_start();
     $html = null;
+    $color = isset($_SESSION['color']) ? $_SESSION['color']:'danger';
     if(isset($_SESSION['messages'])){
-        $html ='<div class="alert alert-danger">';
+        $html ='<div class="alert alert-'.$color.'">';
         foreach($_SESSION['messages'] as $messages){
         $html .= '<strong>';
         $html .= $messages;
@@ -44,7 +45,7 @@ function getFlash() {
         $html .='</div>';
         // supprimer les messages de la session
         unset($_SESSION['messages']);
-
+        unset($_SESSION['color']);
     }
     return $html;
 
